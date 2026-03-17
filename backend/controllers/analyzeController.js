@@ -409,6 +409,10 @@ Return ONLY a single raw JSON object — no markdown, no backticks. All fields m
   ]
 }`;
 
+
+const approxTokens = JSON.stringify(prompt).length / 4;
+console.log("Estimated tokens:", approxTokens);
+
   try {
     const completion = await groq.chat.completions.create({
       model:       "llama-3.3-70b-versatile",
