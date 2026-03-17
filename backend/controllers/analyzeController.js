@@ -11,13 +11,13 @@ const scrapeWebsite = async (url) => {
       },
     });
     const html = await response.text();
-    // 🔥 CLEAN HEAVY HTML (ADD THIS BLOCK)
+    // CLEAN HEAVY HTML (ADD THIS BLOCK)
     let cleanHtml = html
       .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, "")
       .replace(/<style[\s\S]*?>[\s\S]*?<\/style>/gi, "")
       .replace(/<noscript[\s\S]*?>[\s\S]*?<\/noscript>/gi, "");
 
-    // 🔥 REMOVE HUGE JSON BLOBS (Next.js etc)
+    // REMOVE HUGE JSON BLOBS (Next.js etc)
     cleanHtml = cleanHtml
       .replace(/window\.__NEXT_DATA__ = .*?<\/script>/gs, "")
       .replace(/window\.__INITIAL_STATE__ = .*?<\/script>/gs, "");
