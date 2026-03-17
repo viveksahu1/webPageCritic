@@ -11,6 +11,17 @@ const scrapeWebsite = async (url) => {
       },
     });
     const html = await response.text();
+    // 🔥 CLEAN HEAVY HTML (ADD THIS BLOCK)
+    let cleanHtml = html
+      .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, "")
+      .replace(/<style[\s\S]*?>[\s\S]*?<\/style>/gi, "")
+      .replace(/<noscript[\s\S]*?>[\s\S]*?<\/noscript>/gi, "");
+
+    // 🔥 REMOVE HUGE JSON BLOBS (Next.js etc)
+    cleanHtml = cleanHtml
+      .replace(/window\.__NEXT_DATA__ = .*?<\/script>/gs, "")
+      .replace(/window\.__INITIAL_STATE__ = .*?<\/script>/gs, "");
+
     const $ = cheerio.load(html);
 
     // ── Headings ──────────────────────────────────────────────────────────────
@@ -40,8 +51,8 @@ const scrapeWebsite = async (url) => {
 
     // ── Copy ──────────────────────────────────────────────────────────────────
     const bodyText = $("p")
-      .slice(0, 10)
-      .map((i, el) => $(el).text().trim())
+      .slice(0, 6)
+      .map((i, el) => $(el).text().trim().slice(0, 200))
       .get()
       .filter((t) => t.length > 20)
       .join(" ");
@@ -139,6 +150,8 @@ const scrapeWebsite = async (url) => {
     // Color/contrast hints
     const lowContrastHints = $("[style*='color']").length;
 
+    const limit = (str, n = 300) => (str || "").slice(0, n);
+
     return {
       title:         $("title").text().trim(),
       metaDesc,
@@ -151,13 +164,13 @@ const scrapeWebsite = async (url) => {
       h1:            $("h1").first().text().trim(),
       h1Count,
       allHeadings,
-      navLinks,
+      navLinks: limit(navLinks, 200),
       navCount,
-      ctas,
-      bodyText,
-      socialProof,
+      ctas: limit(ctas, 200),
+      bodyText: limit(bodyText, 500),
+      socialProof: limit(socialProof, 200),
       pricingText,
-      footerText,
+      footerText: limit(footerText, 200),
       formFieldNames,
       formFieldCount,
       unlabelledInputs,
@@ -417,7 +430,7 @@ console.log("Estimated tokens:", approxTokens);
     const completion = await groq.chat.completions.create({
       model:       "llama-3.3-70b-versatile",
       temperature: 0.2,
-      max_tokens:  6000,
+      max_tokens:  2000,
       messages: [
         {
           role:    "system",
