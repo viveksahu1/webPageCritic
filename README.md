@@ -1,184 +1,182 @@
-
-
-
-````md
 # 🚀 Critic — AI-Powered Landing Page Auditor
 
-**Critic** is a high-performance, full-stack application designed to transform landing pages into conversion machines.
-By combining intelligent web scraping with the **Llama 3.3 70B model (via Groq)**, Critic performs *"brutally honest"*
-audits across UX, copywriting, SEO, performance, and accessibility to show exactly what is costing you conversions.
+> Turn your landing page into a **conversion machine** with brutally honest AI insights.
+
+**Critic** is a high-performance, full-stack application that analyzes landing pages and reveals exactly what is hurting your conversions.
+
+It combines **intelligent web scraping** with the **Llama 3.3 70B model (via Groq)** to generate deep insights across UX, copywriting, SEO, performance, and accessibility.
 
 ---
 
-## 🚀 Key Features
+## ✨ Why Critic?
+
+Most tools give you *data*.
+Critic gives you **actionable decisions**.
+
+* ❌ "Your headline is weak"
+* ✅ "Here are 3 better headlines that increase conversions"
+
+---
+
+## 🚀 Features
 
 ### ⚡ Instant AI Audits
-- Extracts live data including:
-  - Headings
-  - CTAs
-  - Forms
-  - Meta tags  
-- Generates a detailed audit report in seconds.
 
-### 📊 Comprehensive Scoring
-- Overall score: **0–100**
-- Category-wise grading:
-  - UX
-  - Copywriting
-  - Conversion
-  - SEO
-  - Performance
-  - Accessibility
+* Extracts real-time page data:
+
+  * Headings
+  * CTAs
+  * Forms
+  * Meta tags
+* Generates a **full audit report in seconds**
+
+---
+
+### 📊 Smart Scoring System
+
+* Overall Score: **0 – 100**
+* Category-wise breakdown:
+
+  * UX
+  * Copywriting
+  * Conversion
+  * SEO
+  * Performance
+  * Accessibility
+
+---
 
 ### 🎯 Conversion Intelligence
 
-#### CTA Optimization
-Rewrites existing buttons using psychological principles.
+#### 🔘 CTA Optimization
 
-#### A/B Test Hypotheses
-AI-generated experiments with expected conversion lifts.
+* Rewrites weak CTAs using:
 
-#### Copywriting Rewrites
-Outcome-driven improvements for:
-- Headlines  
-- Value propositions  
+  * Psychology triggers
+  * Action-driven language
+
+#### 🧪 A/B Test Suggestions
+
+* AI-generated experiments
+* Includes expected conversion uplift
+
+#### ✍️ Copywriting Rewrites
+
+* Improves:
+
+  * Headlines
+  * Value propositions
+  * Messaging clarity
+
+---
 
 ### 🧠 Audit History & Comparison
-- Store past audits  
-- Compare two landing pages side-by-side  
-- Track improvements or analyze competitors  
 
-### 🎨 Adaptive UI
-- Sleek dashboard  
-- Full **Dark Mode & Light Mode** support  
+* Save previous audits
+* Compare landing pages side-by-side
+* Track improvements over time
+
+---
+
+### 🎨 Modern UI
+
+* Clean dashboard experience
+* Supports:
+
+  * 🌙 Dark Mode
+  * ☀️ Light Mode
+
+---
 
 ### 🔐 Secure Workspace
-- JWT-based authentication  
-- Private audit history per user  
+
+* JWT Authentication
+* User-specific audit history
+* Secure API handling
 
 ---
 
 ## 🛠 Tech Stack
 
 ### 🎨 Frontend
-- **Vue.js 3 (Composition API)** — Reactive UI architecture  
-- **Vite** — Lightning-fast build tool  
-- **Vue Router** — SPA navigation  
-- **CSS Variables** — Dynamic theming system  
+
+* Vue.js 3 (Composition API)
+* Vite
+* Vue Router
+* CSS Variables (Theming)
 
 ### ⚙️ Backend
-- **Node.js & Express** — REST API  
-- **Cheerio** — Server-side HTML scraping  
-- **Groq Cloud (Llama 3.3)** — AI analysis engine  
-- **MongoDB & Mongoose** — Database & ODM  
-- **JWT & BcryptJS** — Authentication & security  
+
+* Node.js + Express
+* Cheerio (Web Scraping)
+* Groq API (Llama 3.3 70B)
+* MongoDB + Mongoose
+* JWT + BcryptJS
 
 ---
 
 ## 📦 Installation & Setup
 
 ### ✅ Prerequisites
-- Node.js (v18 or higher)
-- MongoDB (Local or Atlas)
-- Groq API Key
+
+* Node.js (v18+)
+* MongoDB (Local / Atlas)
+* Groq API Key
 
 ---
 
-## 🔧 Backend Setup
+### 🔧 Backend Setup
 
 ```bash
 cd app/backend
 npm install
-````
-
-Create a `.env` file:
-
-```env
-PORT=3000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
-GROQ_API_KEY=your_groq_api_key
-CLIENT_ORIGIN=http://localhost:5173
-```
-
-Start the backend server:
-
-```bash
 npm run dev
 ```
 
 ---
 
-## 💻 Frontend Setup
+### 🎨 Frontend Setup
 
 ```bash
 cd app/frontend
 npm install
-```
-
-Create a `.env` file:
-
-```env
-VITE_API_URL=http://localhost:3000
-```
-
-Start the frontend server:
-
-```bash
 npm run dev
 ```
 
 ---
 
-## 📂 Project Structure
+## 🔑 Environment Variables
 
-### 📦 Backend
+Create a `.env` file in `/backend`:
 
-```
-/controllers   → AI analysis, auth, audit logic
-/models        → Mongoose schemas (User, Audit)
-/middleware    → Auth & rate limiting
-/routes        → API endpoints
+```env
+PORT=5000
+MONGO_URI=your_mongodb_connection
+JWT_SECRET=your_secret_key
+GROQ_API_KEY=your_groq_api_key
 ```
 
-### 🎨 Frontend
 
-```
-/src/views         → Dashboard, Audit, Compare, Insights, History
-/src/composables   → Reusable logic (e.g., useAuth.js)
-/src/auditStore.js → Centralized state management
-/src/assets        → Styles & themes
-```
+
+## 🌍 Future Improvements
+
+* 🔍 Competitor analysis mode
+* 📈 Conversion tracking dashboard
+* 🧠 Multi-model AI comparison
+* ⚡ Chrome extension
 
 ---
 
-## 🛡 Security & Rate Limiting
+## 👨‍💻 Author
 
-To protect against API abuse and manage costs:
-
-### 🔐 JWT Protection
-
-* Audit data is isolated per user
-
-### 🚫 Auth Limiter
-
-* 20 requests per 15 minutes
-
-### ⚡ Analyze Limiter
-
-* 10 AI audits per minute
-
----
-
-## 💡 Vision
-
-Critic is built to help founders, marketers, and developers make **data-driven decisions** and turn underperforming landing pages into **high-converting assets**.
+**Vivek Sahu**
+Frontend Developer | Vue.js | React.js
 
 ---
 
 
-## 📄 License
+## 💡 Final Thought
 
-MIT License © 2026
-
-```
+> “Good landing pages inform.
+> Great landing pages convert.
+> Critic makes yours great.”
