@@ -447,21 +447,34 @@ console.log("Estimated tokens:", approxTokens);
     const result = JSON.parse(jsonText);
     res.status(200).json(result);
   } catch (err) {
-   console.error("AI Analysis Error:", err);
+    console.error("AI Analysis Error Detail:", err);
 
-    // Check if the error is from Groq and contains the rate limit message
-    if (err.message && err.message.includes("Rate limit reached")) {
-      // Extract the time from the error message using a Regex
+    let errorMessage = "An unexpected error occurred during analysis.";
+    let statusCode = err.status || 500;
+
+    // 1. Handle Rate Limits (TPD/TPM) - Status 429
+    if (statusCode === 429) {
       const timeMatch = err.message.match(/try again in ([\dhmsms.]+)/i);
       const waitTime = timeMatch ? timeMatch[1] : "a few minutes";
-      
-      return res.status(429).json({ 
-        success: false, 
-        error: `Rate limit reached. Please try again in ${waitTime}.` 
-      });
+      errorMessage = `Rate limit reached. Please try again in ${waitTime}.`;
+    } 
+    
+    // 2. Handle Request Too Large (TPM/Context) - Status 413 or 400
+    else if (statusCode === 413 || (err.code === 'context_length_exceeded' || err.code === 'rate_limit_exceeded' && err.type === 'tokens')) {
+      errorMessage = "The website content is too large for the AI to process. Try a simpler page.";
+      statusCode = 413; // Request Entity Too Large
     }
 
-    res.status(500).json({ success: false, error: err.message || "Internal server error." });
+    // 3. Handle General Bad Requests (Context Length) - Status 400
+    else if (statusCode === 400) {
+      errorMessage = "The analysis request was too complex. Please try again later.";
+    }
+
+    // Return the formatted error to the frontend
+    return res.status(statusCode).json({ 
+      success: false, 
+      error: errorMessage 
+    });
   }
 };
 
