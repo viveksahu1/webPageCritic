@@ -428,7 +428,7 @@ console.log("Estimated tokens:", approxTokens);
 
   try {
     const completion = await groq.chat.completions.create({
-      model:       "llama-3.3-70b-versatile",
+      model:       "groq/compound",
       temperature: 0.2,
       max_tokens:  4000,
       messages: [
