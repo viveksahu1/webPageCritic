@@ -447,7 +447,20 @@ console.log("Estimated tokens:", approxTokens);
     const result = JSON.parse(jsonText);
     res.status(200).json(result);
   } catch (err) {
-    console.error("AI Analysis Error:", err);
+   console.error("AI Analysis Error:", err);
+
+    // Check if the error is from Groq and contains the rate limit message
+    if (err.message && err.message.includes("Rate limit reached")) {
+      // Extract the time from the error message using a Regex
+      const timeMatch = err.message.match(/try again in ([\dhmsms.]+)/i);
+      const waitTime = timeMatch ? timeMatch[1] : "a few minutes";
+      
+      return res.status(429).json({ 
+        success: false, 
+        error: `Rate limit reached. Please try again in ${waitTime}.` 
+      });
+    }
+
     res.status(500).json({ success: false, error: err.message || "Internal server error." });
   }
 };
